@@ -1,0 +1,1 @@
+1. 'RewardPoint.Sharing' contains binaries. Just drop it into \Plugins directory on your server.

@@ -1,0 +1,62 @@
+﻿@model Nop.Plugin.RewardPoint.Sharing.Models.ConfigurationModel
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync("StoreScopeConfiguration")
+<form asp-controller="WidgetsRewardPointSharing" asp-action="Configure" method="post">
+
+    <div class="panel-group">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <b>@T("Nop.Plugin.RewardPoint.Sharing.Note")</b><br />
+                <div class="form-group" style="margin-top:20px">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Widget_OverrideForStore" asp-input="Widget" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Widget" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="Widget" asp-items="Model.AvailableBasepriceUnits" />
+                        <span asp-validation-for="Widget"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="RewardPointPanel_OverrideForStore" asp-input="RewardPointPanel" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+
+                        <nop-label asp-for="RewardPointPanel" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="RewardPointPanel" />
+                        <span asp-validation-for="RewardPointPanel"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Button_OverrideForStore" asp-input="Button" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+
+                        <nop-label asp-for="Button" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Button" />
+                        <span asp-validation-for="Button"></span>
+                    </div>
+                </div>
+
+
+
+
+                <br /><div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</form>
