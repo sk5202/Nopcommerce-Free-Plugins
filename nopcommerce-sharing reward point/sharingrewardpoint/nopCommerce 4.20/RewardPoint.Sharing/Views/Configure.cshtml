@@ -1,0 +1,97 @@
+﻿@*
+    ==========================================================================
+     *                           COPYRIGHT NOTICE                           *
+    ==========================================================================
+     |                                                                       |
+     | Sharing Reward Points Plugin for nopCommerce                          |
+     | Copyright (c) smiten. All Rights Reserved.                            |
+     | Email - smiten.kalathiya6@gmail.com                                   |
+     =========================================================================
+     |                                                                       |
+     | You may not reverse  engineer, decompile, defeat  license  encryption |
+     | mechanisms  or  disassemble this software product or software product |
+     | license.                                                              |
+     =========================================================================
+     |                                                                       |
+     | This  software is developed  under a license  and  may  be  used  and |
+     | modified  only in  accordance with the terms of such license and with |
+     | the  inclusion of the above  copyright notice.  This software or  any |
+     |                                                                       |
+     =========================================================================
+      *                           COPYRIGHT NOTICE                          *
+     =========================================================================
+*@
+@model Nop.Plugin.RewardPoint.Sharing.Models.ConfigurationModel
+@{
+    Layout = "~/Plugins/RewardPoint.Sharing/Views/_ConfigurePlugin.cshtml";
+}
+@await Component.InvokeAsync("StoreScopeConfiguration")
+<form asp-controller="WidgetsRewardPointSharing" asp-action="Configure" method="post">
+
+    <div class="panel-group">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @T("Nop.Plugin.RewardPoint.Sharing.Note")
+                <div class="form-group" style="margin-top:20px">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Enable_OverrideForStore" asp-input="Enable" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+
+                        <nop-label asp-for="Enable" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enable" />
+                        <span asp-validation-for="Enable"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Widget_OverrideForStore" asp-input="Widget" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Widget" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="Widget" asp-items="Model.AvailableBasepriceUnits" />
+                        <span asp-validation-for="Widget"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="RewardPointPanel_OverrideForStore" asp-input="RewardPointPanel" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+
+                        <nop-label asp-for="RewardPointPanel" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="RewardPointPanel" />
+                        <span asp-validation-for="RewardPointPanel"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Button_OverrideForStore" asp-input="Button" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+
+                        <nop-label asp-for="Button" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Button" />
+                        <span asp-validation-for="Button"></span>
+                    </div>
+                </div>
+
+
+
+
+                <br /><div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</form>

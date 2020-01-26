@@ -1,0 +1,108 @@
+﻿@*
+    ==========================================================================
+     *                           COPYRIGHT NOTICE                           *
+    ==========================================================================
+     |                                                                       |
+     | Sharing Reward Points Plugin for nopCommerce                          |
+     | Copyright (c) smiten. All Rights Reserved.                            |
+     | Email - smiten.kalathiya6@gmail.com                                   |
+     =========================================================================
+     |                                                                       |
+     | You may not reverse  engineer, decompile, defeat  license  encryption |
+     | mechanisms  or  disassemble this software product or software product |
+     | license.                                                              |
+     =========================================================================
+     |                                                                       |
+     | This  software is developed  under a license  and  may  be  used  and |
+     | modified  only in  accordance with the terms of such license and with |
+     | the  inclusion of the above  copyright notice.  This software or  any |
+     |                                                                       |
+     =========================================================================
+      *                           COPYRIGHT NOTICE                          *
+     =========================================================================
+*@
+@model Nop.Plugin.RewardPoint.Sharing.Models.PublicInfoModel
+@{
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/RewardPoint.Sharing/Content/RewardPoint/js/RewardPoint.js");
+    Html.AddCssFileParts("~/Plugins/RewardPoint.Sharing/Content/RewardPoint/css/RewardPoint.css");
+}
+<div class="RewardPointContainer">
+    <div class="ziehharmonika">
+        <h3>@T("Nop.Plugin.RewardPoint.Sharing.RewardPoint")</h3>
+        <div class="rewardpointdiv">
+            @if (!Model.IsGuest)
+            {
+                <div class="inputs">
+                    <label asp-for="Email" asp-postfix=":"></label>
+                    <input asp-for="Email" placeholder=@T("Nop.Plugin.RewardPoint.Sharing.Field.Email.Suggetion") />
+                    <nop-required />
+                    <span data-valmsg-replace="true" data-valmsg-for="EmailValidatespan" id="EmailValidatespan" class="field-validation-valid"></span>
+                </div>
+                <button id="EmailValidateButton" style="background-color:@Model.Button" class="EmailValidateButton">@T("Nop.Plugin.RewardPoint.Sharing.ValidateEmail")</button>
+            }
+            else
+            {
+                <p>@T("Nop.Plugin.RewardPoint.Sharing.Login.Proposal")</p>
+            }
+        </div>
+        <button class="RewardPointPopUpTrigger" id="RewardPointPopUpTrigger" onclick="document.getElementById('RewardPointPopup').style.display = 'block';$('html, body').css('overflow-Y', 'hidden');" style=""></button>
+    </div>
+</div>
+<div id="RewardPointPopup" class="RewardPointmodal">
+    <div class="overlay_mn">&nbsp;</div>
+    <div class="RewardPointmodal-content" action="/action_page.php">
+        <div class="imgcontainer">
+            <P class="CustomerTotalRewardPoint" id="CustomerTotalRewardPoint">@Model.CustomerRewardPointMessage</P>
+            <span onclick="document.getElementById('RewardPointPopup').style.display = 'none';  $('html, body').css('overflow-Y', 'auto');" class="RewardPointclose" title="Close Modal">&times;</span>
+            <img src="~/Plugins/RewardPoint.Sharing/Content/RewardPoint/img_avatar.png" alt="Avatar" class="avatar">
+        </div>
+        <div class="RewardPointcontainer">
+            <label for="uname"><b>@T("Nop.Plugin.RewardPoint.Sharing.RewardPoint.Field.RewardPoint")</b></label>&nbsp;
+            <input type="text" placeholder="Enter RewardPoint" onkeypress="return ValidateRewardPoint(event)" id="RewardPointValue" required>
+            <nop-required /><br /><br />
+            <span id="sharerewardPointserror" style="color:red"></span>
+            <button class="rewardPointshare" style="background-color:@Model.Button" onclick="ShareRewardPointbutton()" id="sharerewardPoints" type="submit">@T("Nop.Plugin.RewardPoint.Sharing.RewardPoint.Field.RewardPoint.Send")</button>
+        </div>
+        <div class="RewardPointcontainer validateArea">
+            <p><b id="emailvalidateemail"></b></p>
+        </div>
+        <input type="hidden" id="validatecustomer" />
+    </div>
+</div>
+<script type="text/javascript" asp-location="Footer">
+    function ValidateRewardPoint(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {   return false;  } return true;  }
+
+    var modalRewardPoint = document.getElementById('RewardPointPopup');
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modalRewardPoint) {
+            modalRewardPoint.style.display = "none";
+        }
+    }
+    $(document).ready(function () {
+        $('.ziehharmonika').ziehharmonika({
+            collapsible: true,
+            prefix: '★',
+            css: '@Model.RewardPointPanel',
+            startcss : '@Model.RewardPointPanel'+' transparent transparent transparent'
+
+        });
+    });
+        $("#EmailValidateButton").click(function (e) {
+            $("#EmailValidatespan").css("display", "none");
+            if ($("#Email").val() != "") {   $.ajax({     type: "POST",   url: "@Html.Raw(Url.Action("ValidateCustomerEmail", "WidgetsRewardPointSharing"))",
+                    data: {  CustomerEmail: $("#Email").val(),     },
+                    success: function (model) { if (model.ValidateEmail == true) {  $("#RewardPointPopUpTrigger").click(); document.getElementById("emailvalidateemail").innerHTML = model.EmailValidateMessage;   $("#validatecustomer").val(model.CustomerId); }  else {       document.getElementById("EmailValidatespan").innerHTML = model.EmailValidateMessage;    $("#EmailValidatespan").css("display", "block"); }  }   });  }   else {   document.getElementById("EmailValidatespan").innerHTML = '@T("Nop.Plugin.RewardPoint.Sharing.Email.Required")'; $("#EmailValidatespan").css("display", "block");   }     });
+    function ShareRewardPointbutton() { $("#sharerewardPointserror").css("color", "red");   $("#sharerewardPointserror").css("display", "none"); if ($("#RewardPointValue").val() != "" && $("#RewardPointValue").val() != '0' ) {   $.ajax({   type: "POST",  url: "@Html.Raw(Url.Action("SendRewardPointToCustomer", "WidgetsRewardPointSharing"))",
+                    data: {   CustomerRewardPoint: $("#RewardPointValue").val(), // < note use of 'this' here
+                        CustomerId: $("#validatecustomer").val()  },  success: function (model) { if (model.IsShareRewardPoint == true) { document.getElementById("CustomerTotalRewardPoint").innerHTML = model.CustomerRewardPointMessage
+                            document.getElementById("sharerewardPointserror").innerHTML = model.SuccessOrErrorMessage;    $("#sharerewardPointserror").css("color", "green");
+                            $("#sharerewardPointserror").css("display", "block"); }
+                        else {   document.getElementById("sharerewardPointserror").innerHTML = model.SuccessOrErrorMessage; $("#sharerewardPointserror").css("display", "block");
+                        } } }); } else { document.getElementById("sharerewardPointserror").innerHTML = '@T("Nop.Plugin.RewardPoint.Sharing.RewardPoint.Required")';  $("#sharerewardPointserror").css("display", "block");    }  }
+
+</script>
+

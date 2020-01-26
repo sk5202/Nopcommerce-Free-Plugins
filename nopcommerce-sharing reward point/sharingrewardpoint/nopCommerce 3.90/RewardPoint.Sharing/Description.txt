@@ -1,0 +1,9 @@
+﻿Group: Widgets
+FriendlyName: RewardPoint Sharing
+SystemName: RewardPoint.Sharing
+Version: 1.0
+SupportedVersions: 3.90
+Author: smi10
+DisplayOrder: 1
+FileName: Nop.Plugin.RewardPoint.Sharing.dll
+Description: This plugin allows you to shre rewardpoint with other customer

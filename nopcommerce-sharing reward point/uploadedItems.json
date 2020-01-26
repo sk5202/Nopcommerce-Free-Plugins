@@ -1,0 +1,30 @@
+﻿[
+  {
+    "Type": "Plugin",
+    "SupportedVersion": "3.90",
+    "DirectoryPath": "sharingrewardpoint/nopCommerce 3.90/RewardPoint.Sharing/",
+    "SystemName": "RewardPoint.Sharing",
+   
+  },
+  {
+    "Type": "Plugin",
+    "SupportedVersion": "4.00",
+    "DirectoryPath": "sharingrewardpoint/nopCommerce 4.00/RewardPoint.Sharing/",
+    "SystemName": "RewardPoint.Sharing",
+   
+  },
+  {
+    "Type": "Plugin",
+    "SupportedVersion": "4.10",
+   "DirectoryPath": "sharingrewardpoint/nopCommerce 4.10/RewardPoint.Sharing/",
+    "SystemName": "RewardPoint.Sharing",
+  
+  },
+  {
+    "Type": "Plugin",
+    "SupportedVersion": "4.20",
+    "DirectoryPath": "sharingrewardpoint/nopCommerce 4.20/RewardPoint.Sharing/",
+    "SystemName": "RewardPoint.Sharing",
+   
+  }
+]
